@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Orders</title>
+
+    <link href="../css/buttons.css" rel="stylesheet">
+
+    <script type="text/javascript" src="../js/JQuery.js"></script>
+    <link rel="stylesheet" href="../css/style1.css" media="screen" type="text/css" />
+    <!-- for-mobile-apps -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="keywords" content="Easy Recharge Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+	Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design"/>
+
+    <link href="../css/animate.css" rel="stylesheet" type="text/css" media="all">
+    <script src="../js/wow.min.js"></script>
+    <link href="../css/page.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- js -->
+
+</head>
+<body>
+
+
+
+<div class="set-content">
+
+    <div class="container">
+        <div class="all-questions-anwsers" style="top:-100px;">
+            <div class="bs-example bs-example-tabs orders-tab" role="tabpanel" data-example-id="togglable-tabs">
+                <ul id="myTab" class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#solved" onclick="createPageAjax(1)" id="all-tab"
+                                                              role="tab" data-toggle="tab"
+                                                              aria-controls="all" aria-expanded="true">已解决</a></li>
+                    <li role="presentation"><a href="#unsolved" onclick="createPageAjax(0)" role="tab" id="pay-tab"
+                                               data-toggle="tab"
+                                               aria-controls="pay">未解决</a></li>
+                    <li role="presentation"><a href="#create-question" role="tab" id="shop-tab" data-toggle="tab"
+                                               aria-controls="shop">发起问题</a></li>
+                    <li style="left:40px; top:0px;"><a id="categoryname">当前专业</a><li>
+                </ul>
+                <div id="myTabContent" class="tab-content">
+                    <div role="tabpanel" class="tabs-para tab-pane fade in active" id="solved"
+                         aria-labelledby="all-tab">
+                        <div class="profile-gd">
+
+                            <div id="select_Content1">
+                            </div>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tabs-para tab-pane fade" id="unsolved" aria-labelledby="pay-tab">
+                        <div class="profile-gd">
+                            <div id="select_Content2">
+                            </div>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tabs-para tab-pane fade" id="create-question"
+                         aria-labelledby="shop-tab">
+                        <div id="make-question">
+                            <form id="questionForm" onsubmit="return false">
+                                <fieldset>
+                                    <legend>问题描述</legend>
+                                    <div class="form-row">
+                                        <div class="question-label"><label for="field1"
+                                                                           style="color: black;font-weight:normal">问题名称</label>:
+                                        </div>
+                                        <div class="field-widget"><input name="questionTitle" id="field1"
+                                                                         class="required"
+                                                                         title="Enter your question"/></div>
+                                        <div style="margin-top:10px;">
+                                            <ul id="ulid21" style="float:left;list-style:none;">
+                                                <li id="li11"
+                                                    style="float:left;width:90px;margin-left:0px;margin-right:25px;">
+                                                    添加标签:
+                                                </li>
+                                            </ul>
+                                            <input style="width:30px;height:30px;margin-top:7px;margin-left:10px;padding: 2px"
+                                                   type="button" value="+" onKeypress="if(event.keyCode === 32)event.returnValue = false;"   onclick="insertLabel()"/>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="form-row">
+                                        <div class="requirement-field-label"><label
+                                                style="color: black;font-weight:normal">问题内容</label>:
+                                        </div>
+                                        <div id="editor-make-question"></div>
+                                        <script type="text/javascript" src="../js/wangEditor.min.js"></script>
+                                        <script type="text/javascript" src="../js/jquery.min.js"></script>
+                                        <script type="text/javascript" src="../js/wangEditor-fullscreen-plugin.js"></script>
+
+                                        <script type="text/javascript">
+
+                                        </script>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="question-label"><label
+                                                style="color: black;font-weight:normal;margin-top: 5px;">专业</label>:
+                                        </div>
+                                        <div class="field-widget">
+                                            <select id="field2" name="field2" class="validate-selection"
+                                                    title="选择问题所属的专业" onChange="change()">
+                                                <option selected="selected">文</option>
+                                                <option>法</option>
+                                                <option>理</option>
+                                                <option>工</option>
+                                                <option>医</option>
+                                                <option>农</option>
+                                                <option>其他</option>
+                                            </select>
+                                            <select id="second" name="questionCategory" class="validate-selection">
+                                                <option selected="selected">金融工程</option>
+                                                <option>马克思主义</option>
+                                                <option>哲学</option>
+                                                <option>音乐</option>
+                                            </select>
+                                            <label style="width:80px;margin-left:30px;margin-top:5px;color: black;font-weight:normal">悬赏： </label><input
+                                                id="prizeNum" name="questionIntegral"
+                                                style="margin-top:5px;width:50px;height:25px;" type="number" step="1"
+                                                min="1" max="20" value="1"/>
+                                            <label style="width:200px;margin-top:5px;color: black;font-weight:normal">个积分(最大20)</label></label>
+
+                                        </div>
+                                    </div>
+
+                                </fieldset>
+                                <input type="submit" onclick="questionAjax()" class="submit" value="提交"/>
+                                <input class="reset" type="button" value="清空" onclick="my_reset(); return false;"/>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <ul class="mcd-menu">
+            <li style="background:#778899 ;border-radius:10px;" >
+                <a>
+
+                    <h3 style="color:white ;cursor:default;">问题分类(专业)</h3>
+                </a>
+            </li>
+            <li id="wen">
+                <a href="#" id="1wen" onclick="changecolor1('wen','1wen')">
+
+                    <strong>文</strong>
+                </a>
+                <ul >
+                    <li id="wen1"><a  href="#" id="wen11" onclick="changecolor('wen','wen1','wen11')">金融工程</a></li>
+                    <li id="wen2"><a href="#" id="wen21" onclick="changecolor('wen','wen2','wen21')">马克思主义</a></li>
+                    <li id="wen3"><a href="#" id="wen31" onclick="changecolor('wen','wen3','wen31')">哲学</a></li>
+                    <li id="wen4"><a href="#" id="wen41" onclick="changecolor('wen','wen4','wen41')">音乐</a></li>
+
+                </ul>
+            </li>
+            <li id="fa">
+                <a href="#" id="1fa" onclick="changecolor1('fa','1fa')">
+
+                    <strong>法</strong>
+                </a>
+                <ul>
+                    <li id="fa1"><a href="#" id="fa11" onclick="changecolor('fa','fa1','fa11')">刑法</a></li>
+                    <li id="fa2"><a href="#" id="fa21"  onclick="changecolor('fa','fa2','fa21')">民法</a></li>
+                    <li id="fa3"><a href="#" id="fa31"  onclick="changecolor('fa','fa3','fa31')">婚姻法</a></li>
+                    <li id="fa4"><a href="#" id="fa41"  onclick="changecolor('fa','fa4','fa41')">未成年人保护法</a></li>
+                </ul>
+            </li>
+            <li id="li">
+                <a href="#" id="1li" onclick="changecolor1('li','1li')">
+
+                    <strong>理</strong></a>
+
+                <ul>
+                    <li id="li5"><a href="#" id="li51" onclick="changecolor('li','li5','li51')">高等数学</a></li>
+                    <li id="li2"><a href="#" id="li21" onclick="changecolor('li','li2','li21')">大学物理</a></li>
+                    <li id="li3"><a href="#" id="li31" onclick="changecolor('li','li3','li31')">线性代数</a></li>
+                    <li id="li4"><a href="#" id="li41" onclick="changecolor('li','li4','li41')">概率论</a></li>
+                </ul>
+            </li>
+
+
+            <li id="gong">
+                <a href="#" id="1gong" onclick="changecolor1('gong','1gong')">
+                    <strong>工</strong>
+                </a>
+                <ul>
+                    <li id="gong1"><a href="#" id="gong11" onclick="changecolor('gong','gong1','gong11')">土木</a></li>
+                    <li id="gong2"><a href="#" id="gong21" onclick="changecolor('gong','gong2','gong21')">建筑</a></li>
+                    <li id="gong3"><a href="#" id="gong31" onclick="changecolor('gong','gong3','gong31')">水利</a></li>
+                    <li id="gong4"><a href="#" id="gong41" onclick="changecolor('gong','gong4','gong41')">机电</a></li>
+                </ul>
+            </li>
+
+            <li id="yi">
+                <a href="#" id="1yi" onclick="changecolor1('yi','1yi')">
+
+                    <strong>医</strong>
+
+                </a>
+                <ul>
+                    <li id="yi1"><a href="#" id="yi11" onclick="changecolor('yi','yi1','yi11')">内科</a></li>
+                    <li id="yi2"><a href="#" id="yi21" onclick="changecolor('yi','yi2','yi21')">外科</a></li>
+                    <li id="yi3"><a href="#" id="yi31" onclick="changecolor('yi','yi3','yi31')">鼻腔科</a></li>
+                    <li id="yi4"><a href="#" id="yi41" onclick="changecolor('yi','yi4','yi41')">兽医</a></li>
+                </ul>
+
+            </li>
+            <li id="nong">
+                <a href="#" id="1nong" onclick="changecolor1('nong','1nong')">
+
+                    <strong>农</strong>
+                </a>
+                <ul>
+                    <li id="nong1"><a href="#" id="nong11" onclick="changecolor('nong','nong1','nong11')">水果</a></li>
+                    <li id="nong2"><a href="#" id="nong21" onclick="changecolor('nong','nong2','nong21')">粗粮</a></li>
+                    <li id="nong3"><a href="#" id="nong31" onclick="changecolor('nong','nong3','nong31')">药物</a></li>
+                    <li id="nong4"><a href="#" id="nong41" onclick="changecolor('nong','nong4','nong41')">保护</a></li>
+                </ul>
+            </li>
+
+
+        </ul>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        createPageAjax(1);
+    });
+
+
+
+    function nextTab(elem) {
+        $(elem).next().find('a[data-toggle="tab"]').click();
+    }
+
+    function prevTab(elem) {
+        $(elem).prev().find('a[data-toggle="tab"]').click();
+    }
+
+    function setOver(name, cursel, n) {
+        for (i = 1; i <= n; i++) {
+            var menu = document.getElementById(name + i);
+            menu.className = i == cursel ? "hover" : "";
+        }
+    }
+
+    function setOut(name, cursel, n) {
+        for (i = 1; i <= n; i++) {
+            var menu = document.getElementById(name + i);
+            menu.className = i == cursel ? "" : "hover";
+        }
+    }
+
+    function MM_showHideLayers() { //v9.0
+        var i, p, v, obj, args = MM_showHideLayers.arguments;
+        for (i = 0; i < (args.length - 2); i += 3)
+            with (document) if (getElementById && ((obj = getElementById(args[i])) != null)) {
+                v = args[i + 2];
+                if (obj.style) {
+                    obj = obj.style;
+                    v = (v == 'show') ? 'visible' : (v == 'hide') ? 'hidden' : v;
+                }
+                obj.visibility = v;
+            }
+    }
+
+    function change() {
+        var x = document.getElementById("field2");
+        var y = document.getElementById("second");
+        y.options.length = 0; // 清除second下拉框的所有内容
+        if (x.selectedIndex == 0) {
+            y.options.add(new Option("马克思主义"));
+            y.options.add(new Option("金融工程", false, true));
+            y.options.add(new Option("哲学"));
+            y.options.add(new Option("音乐"));
+        }
+
+        if (x.selectedIndex == 1) {
+            y.options.add(new Option("刑法"));
+            y.options.add(new Option("民法", false, true));
+            y.options.add(new Option("婚姻法"));
+            y.options.add(new Option("未成年人保护法"));
+        }
+
+        if (x.selectedIndex == 2) {
+            y.options.add(new Option("高数"));
+            y.options.add(new Option("大物", false, true));
+            y.options.add(new Option("线代"));
+            y.options.add(new Option("概率论"));
+        }
+        if (x.selectedIndex == 3) {
+            y.options.add(new Option("土木"));
+            y.options.add(new Option("建筑", false, true));
+            y.options.add(new Option("水利"));
+            y.options.add(new Option("机电"));
+        }
+        if (x.selectedIndex == 4) {
+            y.options.add(new Option("内科"));
+            y.options.add(new Option("外科", false, true));
+            y.options.add(new Option("鼻腔科"));
+            y.options.add(new Option("兽医"));
+        }
+        if (x.selectedIndex == 5) {
+            y.options.add(new Option("水果"));
+            y.options.add(new Option("粗粮", false, true));
+            y.options.add(new Option("药物"));
+            y.options.add(new Option("保护"));
+        }
+        if (x.selectedIndex == 6) {
+            y.options.add(new Option("其他", false, true));
+        }
+    }
+
+    var numOfLabel = 0;
+
+    function insertLabel() {
+        if (numOfLabel < 5) {
+
+            var li13 = document.getElementById("li13");
+            //创建li
+
+
+            var li15 = document.createElement("li");
+            li15.setAttribute('id', numOfLabel + 5);
+
+            //创建文本
+            var text15 = document.createElement('input');
+            text15.setAttribute('type', 'text');//输入框的类型
+            text15.setAttribute('name', "questionKeyword");//输入框的名字
+            text15.setAttribute('id', numOfLabel);//输入框的id
+
+            //把文本添加到li下面 appendChild
+            li15.appendChild(text15);
+            //获取到ul
+            var ul21 = document.getElementById("ulid21");
+
+            //insertBefore(newNode,oldNode)
+            ul21.appendChild(li15);
+
+            var butt = document.createElement("input");
+            butt.type = "button";
+            butt.value = "×";
+            butt.id = numOfLabel - 5;
+            butt.onclick = function () {
+                var m = document.getElementById(4 + numOfLabel);
+                m.parentNode.removeChild(m);
+                numOfLabel--;
+            }
+            var licontent = document.getElementById(5 + numOfLabel);
+            licontent.appendChild(butt);
+
+            numOfLabel = numOfLabel + 1;
+        } else {
+            alert("最多只能添加5个标签");
+        }
+
+    }
+
+    var E = window.wangEditor;
+    var editor = new E('#editor-make-question');
+    // 关闭粘贴样式的过滤
+    editor.customConfig.pasteFilterStyle = false;
+    // 忽略粘贴内容中的图片
+    editor.customConfig.pasteIgnoreImg = true;
+    editor.customConfig.uploadImgShowBase64 = true;
+    // 自定义处理粘贴的文本内容
+    editor.customConfig.pasteTextHandle = function (content) {
+        // content 即粘贴过来的内容（html 或 纯文本），可进行自定义处理然后返回
+        return content + '<p>在粘贴内容后面追加一行</p>';
+    }
+    editor.customConfig.linkCheck = function (text, link) {
+        console.log(text); // 插入的文字
+        console.log(link); // 插入的链接
+
+        return true; // 返回 true 表示校验成功
+        // return '验证失败' // 返回字符串，即校验失败的提示信息
+    }
+    editor.customConfig.linkImgCheck = function (src) {
+        console.log(src); // 图片的链接
+
+        return true; // 返回 true 表示校验成功
+        // return '验证失败' // 返回字符串，即校验失败的提示信息
+    }
+    editor.customConfig.linkImgCallback = function (url) {
+        console.log(url); // url 即插入图片的地址
+    }
+    editor.create();
+
+    function my_reset(){
+        editor.txt.html('');
+    }
+    function questionAjax() {
+
+        var questionKeyword = [];
+        var len = document.getElementsByName('questionKeyword');
+
+        for(var i = 0;i<len.length;i++){
+            var v =len[i].value;
+            questionKeyword.push(v);
+        }
+        var userid = sessionStorage.getItem("userid");
+        var questionContent = editor.txt.html();
+        console.log(questionKeyword)
+        console.log(questionKeyword.length)
+        var questionTitle = document.getElementById("field1").value;
+        var questionIntegral = document.getElementById("prizeNum").value;
+        var questionCategory = document.getElementById("second").value;
+        if( userid === "0")
+        {
+            document.getElementById("loginBtn").click();
+        }
+        else
+        {
+            if (questionContent === "<p><br></p>" || questionTitle === "")
+            {
+                alert("内容和标题不能为空！")
+            }
+            else
+            {
+                $("#main_content").load("");
+                $.ajax({
+                    type: "POST",
+                    url: "../QuestionServlet",
+                    data: {"questionContent":questionContent,"questionKeyword":questionKeyword,"questionTitle":questionTitle,"questionIntegral":questionIntegral,"questionCategory":questionCategory,"userid":userid},
+                    traditional: true,
+                    dataType: "json",
+                    contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                    success: function (data) {
+                                console.log("我成功了");
+                            }
+
+                });
+            }
+        }
+
+
+    }
+
+
+
+    $(document).on('click', "a[name='a_page']", function () {
+
+        var page = $(this).attr("page");
+        var solved = $(this).attr("solved");
+        var major = sessionStorage.getItem("major");
+
+        this.setAttribute("class",".active");
+
+        if (null === major) {
+            $.ajax({
+                type: "POST",
+                url: "../PageServlet",
+                data: {"page": page, "solved": solved},
+                dataType: "json",
+                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                success: function (data) {
+                    var list = data.list;
+                    if (solved === "0") {
+                        createPageUnsolved(list, data.totalPage);
+                    }
+                    else if (solved === "1") {
+                        createPageSolved(list, data.totalPage);
+                    }
+
+
+                }
+            });
+        }
+        else {
+            $.ajax({
+                type: "POST",
+                url: "../PageMajorServlet",
+                data: {"page": page, "solved": solved, "major": major},
+                dataType: "json",
+                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                success: function (data) {
+                    var list = data.list;
+                    if (solved === "0") {
+                        createPageUnsolved(list, data.totalPage);
+                    }
+                    else if (solved === "1") {
+                        createPageSolved(list, data.totalPage);
+                    }
+
+                }
+            });
+        }
+    });
+
+    function createPageAjax(solved) {
+
+        var major = sessionStorage.getItem("major");
+        if (null === major) {
+            $.ajax({
+                type: "POST",
+                url: "../PageServlet",
+                data: {"page": 1, "solved": solved},
+                dataType: "json",
+                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                success: function (data) {
+                    var list = data.list;
+                    if (solved === 0) {
+                        createPageUnsolved(list, data.totalPage);
+                    }
+                    else if (solved === 1) {
+                        createPageSolved(list, data.totalPage);
+                    }
+
+
+                }
+            });
+        }
+        else {
+            $.ajax({
+                type: "POST",
+                url: "../PageMajorServlet",
+                data: {"page": 1, "solved": solved, "major": major},
+                dataType: "json",
+                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                success: function (data) {
+                    var list = data.list;
+                    if (solved === 0) {
+                        createPageUnsolved(list, data.totalPage);
+                    }
+                    else if (solved === 1) {
+                        createPageSolved(list, data.totalPage);
+                    }
+                }
+            });
+        }
+
+
+    }
+
+
+    function createPageSolved(list, totalPage) {
+        var data = [];
+        for (var i = 0; i < list.length; i++) {
+            data.push('<div class="topic_flag_reco" style="padding: 10px;">' +
+                '<div class="topic_flag_reco top"><div class="topic_flag_reco topic"><a class="a_question" qid="'+list[i].qid+'">' +
+                '<b>' + list[i].title + '</b>' +
+                '</a></div><div class="topic_flag_reco offer">悬赏：' + list[i].integral + '</div></div>'+
+                '<div class="topic_flag_reco bottom"><div class="topic_flag_reco que">' +list[i].keyword+'</div><div> <div class="topic_flag_reco initiator"><a name="a_user" uid="'+list[i].userId+'">' + list[i].username + '</a></div>' +
+                '<div class="topic_flag_reco time">' + new Date(list[i].time.time).format("yyyy-MM-dd hh:mm:ss")  + '</div>' +
+                '<div class="topic_flag_reco classify">' + list[i].category + '</div>' +
+                '<div class="topic_flag_reco reply">回复数:' + list[i].answerCount + '</div>' +
+                '</div>' +
+                '</div>' +
+                '</div>')
+
+        }
+        data.push('<div class="page"><ul class="pagination"><li><a>上一页</a></li>');
+        for (var j = 0; j < totalPage; j++) {
+            var k = j + 1;
+            data.push('<li><a  name="a_page" solved = 1 page = ' + k + '>' + k + '</a></li>');
+        }
+        data.push('<li><a>下一页</a></li></ul></div>');
+
+        document.getElementById('select_Content1').innerHTML = data.join('');
+
+
+    }
+
+    function createPageUnsolved(list, totalPage) {
+        var data = [];
+        for (var i = 0; i < list.length; i++) {
+            data.push('<div class="topic_flag_reco" style="padding: 10px;">' +
+                '<div class="topic_flag_reco top"><div class="topic_flag_reco topic"><a class="a_question" qid="'+list[i].qid+'">' +
+                '<b>' + list[i].title + '</b>' +
+                '</a></div><div class="topic_flag_reco offer">悬赏：' + list[i].integral + '</div></div>'+
+                '<div class="topic_flag_reco bottom"><div class="topic_flag_reco que">' +list[i].keyword+'</div><div> <div class="topic_flag_reco initiator"><a name="a_user" uid="'+list[i].userId+'">' + list[i].username + '</a></div>' +
+                '<div class="topic_flag_reco time">' + new Date(list[i].time.time).format("yyyy-MM-dd hh:mm:ss")  + '</div>' +
+                '<span> </span><div class="topic_flag_reco classify">' + list[i].category + '</div>' +
+                '<div class="topic_flag_reco reply">回复数:' + list[i].answerCount + '</div>' +
+                '</div>' +
+                '</div>' +
+                '</div>')
+
+        }
+        data.push('<div class="page"><ul class="pagination"><li><a>上一页</a></li>');
+        for (var j = 0; j < totalPage; j++) {
+            var k = j + 1;
+            data.push('<li><a name="a_page" solved = 0 page = ' + k + '>' + k + '</a></li>');
+        }
+        data.push('<li><a>下一页</a></li></ul></div>');
+
+        document.getElementById('select_Content2').innerHTML = data.join('');
+
+    }
+
+
+    $(document).on('click', '.a_major', function () {
+
+
+    });
+
+</script>
+<script>
+    var a= null;
+    var b=null;
+
+    var g=null;
+    function changecolor(id1,id2,id3)
+    {
+        if(a != null && b != null){
+
+            a.style.backgroundColor="#f8f8f8";
+
+            b.style.backgroundColor="#f8f8f8";
+        }
+        if(g != null)
+        {
+            g.style.backgroundColor="#f8f8f8";
+        }
+        var d = document.getElementById(id1);
+        d.style.backgroundColor="#f8e8e8";
+        var c = document.getElementById(id2);
+        c.style.backgroundColor="#f8e8e8";
+        var f=document.getElementById(id3);
+        var e=document.getElementById("categoryname");
+        a=d;
+        b=c;
+        e.innerHTML="当前专业:"+f.innerHTML;
+
+        var major = f.text;
+        console.log(major);
+        sessionStorage.setItem("major", major);
+        $.ajax({
+            type: "POST",
+            url: "../PageMajorServlet",
+            data: {"page": 1, "solved": 1, "major": major},
+            dataType: "json",
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            success: function (data) {
+
+                var list = data.list;
+                createPageSolved(list, data.totalPage);
+                document.getElementById("all-tab").click();
+
+            }
+        });
+    }
+    function changecolor1(id1,id2)
+    {
+        if(a !=null)
+        {
+            if(a!=null && b!=null)
+            {
+                a.style.backgroundColor="#f8f8f8";
+                b.style.backgroundColor="#f8f8f8";
+            }
+            a.style.backgroundColor="#f8f8f8";
+        }
+        if(g != null)
+        {
+            g.style.backgroundColor="#f8f8f8";
+        }
+        var i = document.getElementById(id1);
+        i.style.backgroundColor="#f8e8e8";
+        var h = document.getElementById(id2);
+        g=i;
+        var e=document.getElementById("categoryname");
+        e.innerHTML="当前类别:"+h.innerHTML;
+    }
+</script>
+
+</body>
+</html>

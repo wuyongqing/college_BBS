@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>information</title>
+    <link rel="stylesheet" href="../css/information.css" type="text/css" charset="utf-8"/>
+
+    <script>
+        var userid = parseInt(sessionStorage.getItem("userid"));
+        $(document).ready(function () {
+            var ouserid = parseInt(sessionStorage.getItem("ouserid"));
+
+            if (ouserid===userid)
+            {
+                sessionStorage.setItem("page","../html/settings.html");
+                $("#main_content").load("../html/settings.html")
+            }
+            else
+            {
+                $.ajax({
+                    type: "POST",
+                    url: "../UserServlet?otherUser=1",
+                    data: {"userid": ouserid},
+                    dataType: "json",
+                    async:false,
+                    contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                    success: function (data) {
+                        var user = data.user;
+                        var fList = data.fList;
+                        console.log("userhead");
+                        document.getElementById("inf-userHead").setAttribute("src",getHead(user.head));
+                        document.getElementById("inf-username").innerText = user.userName;
+                        document.getElementById("inf-integral").innerText = user.integral;
+                        document.getElementById("inf-level").innerText = user.level;
+                        document.getElementById("inf-sex").innerText = user.sex;
+                        document.getElementById("inf-school").innerText = user.school;
+                        document.getElementById("inf-major").innerText = user.major;
+                        document.getElementById("followedCount").innerText = fList.length;
+
+                        for(var i=0;i<fList.length;i++)
+                        {
+                            console.log(fList[i].userid)
+                            if (fList[i].userid === userid)
+                            {
+                                document.getElementById("btn").value = "已关注";
+                            }
+                        }
+
+                        document.getElementById("question-published-tab").click();
+                    }
+
+                });
+
+            }
+
+        });
+        function change() {
+            if (userid===0)
+            {
+                document.getElementById("loginBtn").click();
+            }
+            else
+            {
+                var followed_userid = sessionStorage.getItem("ouserid");
+                console.log(userid);
+                console.log(followed_userid);
+                if (document.getElementById("btn").value === "+关注") {
+                    $.ajax({
+                        type: "POST",
+                        url: "../AddFollowServlet",
+                        data: {"userid": userid,"followed_userid": followed_userid},
+                        dataType: "json",
+                        contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                        success: function (data) {
+                            document.getElementById("btn").value = "已关注";
+                            document.getElementById("followedCount").innerText =parseInt( document.getElementById("followedCount").innerText)+1;
+
+                        }
+                    });
+
+                } else {
+                    $.ajax({
+                        type: "POST",
+                        url: "../DelFollowServlet",
+                        data: {"userid": userid,"followed_userid": followed_userid},
+                        dataType: "json",
+                        contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                        success: function (data) {
+                            document.getElementById("btn").value = "+关注";
+                            document.getElementById("followedCount").innerText =parseInt( document.getElementById("followedCount").innerText)-1;
+                        }
+                    });
+
+                }
+            }
+
+        }
+
+        $(document).on('click', '#question-published-tab', function () {
+            var ouserid = sessionStorage.getItem("ouserid");
+            $.ajax({
+                type: "POST",
+                url: "../GetPublishedServlet",
+                data: {"userid": ouserid, "page": 1},
+                dataType: "json",
+                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                success: function (data) {
+                    var list = data.list;
+                    console.log(list)
+                    var collection = [];
+                    for (var i = 0; i < list.length; i++) {
+                        collection.push(
+                            '<div class="an-con-que" style="width:70%;float:left;"><a class="a_question" href="javaScript:void(0)" qid = "' + list[i].qid + '">                                 ' +list[i].title + '</a></div>' +
+                            '<div class="an-con-offer" style="width:10%;float:left;">' + list[i].integral + '</div>\n' +
+                            ' <div class="an-con-state" style="width:20%;float:left;">'+ transSolved(list[i].solved)+'</div>')
+
+                    }
+                    collection.push('<div class="page">');
+                    for (var j = 0; j < data.totalPage; j++) {
+                        var k = j + 1;
+                        collection.push('<button class="published_page" page = ' + k + '>' + k + '</button>');
+                    }
+                    collection.push('</div>');
+
+                    document.getElementById('answer-content').innerHTML = collection.join('');
+                }
+            });
+        });
+        $(document).on('click',".published_page",function () {
+
+            var ouserid = sessionStorage.getItem("ouserid");
+            var page =  $(this).attr("page");
+            $.ajax({
+                type: "POST",
+                url: "../GetPublishedServlet",
+                data: {"userid": ouserid, "page": page},
+                dataType: "json",
+                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                success: function (data) {
+                    var list = data.list;
+                    console.log(list)
+                    var collection = [];
+                    for (var i = 0; i < list.length; i++) {
+                        collection.push(
+                            '<div class="an-con-que" style="width:70%;float:left;"><a class="a_question" href="javaScript:void(0)" qid = "' + list[i].qid + '">                                 ' +list[i].title + '</a></div>' +
+                            '<div class="an-con-offer" style="width:10%;float:left;">' + list[i].integral + '</div>\n' +
+                            ' <div class="an-con-state" style="width:20%;float:left;">'+ transSolved(list[i].solved)+'</div>')
+
+                    }
+                    collection.push('<div class="page">');
+                    for (var j = 0; j < data.totalPage; j++) {
+                        var k = j + 1;
+                        collection.push('<button class="published_page" page = ' + k + '>' + k + '</button>');
+                    }
+                    collection.push('</div>');
+
+                    document.getElementById('answer-content').innerHTML = collection.join('');
+                }
+            });
+
+        })
+
+    </script>
+</head>
+<body>
+<div class="bigDiv">
+<div class="Information">
+    <div class="inf1">
+        <div class="header-">
+            <img id="inf-userHead" style="max-width: 100px;margin-left: 20px" />
+        </div>
+        <div class="information-user-name">
+            <p id="inf-username" class="username"></p>
+        </div>
+        <div class="attention">
+            <input type="button" name="attention" id="btn" value="+关注"
+                   onclick="change()"/>
+        </div>
+    </div>
+    <div class="inf2">
+        <ul>
+            <li>积分：<b id="inf-integral"></b></li>
+            <li>等级：<b id="inf-level"></b></li>
+            <li>性别：<b id="inf-sex"></b></li>
+            <li>个性签名：<p id="inf-signature"></p></li>
+            <li>学校：<b id="inf-school"></b></li>
+            <li>专业：<b id="inf-major"></b></li>
+            <li>被<span> </span><b id="followedCount" style="color:red;"></b><span> </span>人关注</li>
+        </ul>
+    </div>
+</div>
+<div class="about">
+    <div class="content-">
+        <div class="o-question" role="tabpanel" data-example-id="togglable-tabs">
+            <ul id="myTab" class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#question-published" id="question-published-tab"
+                                                          role="tab" data-toggle="tab" aria-expanded="true">已发布的问题</a>
+                </li>
+                <li role="presentation"><a href="#question-accepted" role="tab" id="question-accepted-tab"
+                                           data-toggle="tab">被采纳的回答</a></li>
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                <div role="tabpanel" class="tabs-para tab-pane fade in active" id="question-published">
+                    <div class="tab-name">
+                        <div class="tab-name-que" style="width:70%;float:left;">问题描述</div>
+                        <div class="tab-name-offer" style="width:10%;float:left;">悬赏</div>
+                        <div class="tab-name-state" style="width:20%;float:left;">状态</div>
+                    </div>
+                    <div id="answer-content" class="answer-content">
+
+                    </div>
+                </div>
+                <div role="tabpanel" class="tabs-para tab-pane fade" id="question-accepted">
+                    <div class="an-tab-name">
+                        <div class="an-tab-name-que" style="width:50%;float:left;">问题描述</div>
+                        <div class="an-tab-name-date1" style="width:20%;float:left;">回答日期</div>
+                        <div class="an-tab-name-date2" style="width:20%;float:left;">被采纳日期</div>
+                        <div class="an-tab-name-offer" style="width:10%;float:left;">悬赏</div>
+                    </div>
+                    <div class="an-answer-content">
+                        <div class="an-con-que" style="width:50%;float:left;"><a href="" target="_blank">问题</a></div>
+                        <div class="an-con-date1" style="width:20%;float:left;">2018-00-00</div>
+                        <div class="an-con-date2" style="width:20%;float:left;">2018-00-00</div>
+                        <div class="an-con-offer" style="width:10%;float:left;">10</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<!-- for bootstrap working -->
+</body>
+</html>
